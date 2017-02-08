@@ -2,6 +2,9 @@ const express = require("express");
 const moment = require("moment");
 const app = express();
 
+app.set("views", __dirname + "/views");
+app.set("view engine", "pug");
+
 function isNumeric(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -21,13 +24,9 @@ const formats = [
     'YYYY MMMM D'
   ];
 
-app.all("*", function(request, response, next) {
-  response.writeHead(200, { "Content-Type": "application/json" });
-  next();
-});
 
 app.get("/", function(req, res) {
-  res.end(new Date().toDateString());
+  res.render('index');
 });
 
 app.get('/:time', function(req, res){
@@ -52,7 +51,7 @@ app.get('/:time', function(req, res){
       natural : null
     }));
   }
-  console.log((date.time));
+
 });
 
 app.listen(8080, function () {
